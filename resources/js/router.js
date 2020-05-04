@@ -1,77 +1,66 @@
+import Router from "vue-router";
+import Vue from "vue";
+Vue.use(Router);
+import firstPage from "./components/pages/myFirstVuePage";
+import newRoutePage from "./components/pages/newRoutePage";
+import hooks from "./components/pages/basic/hooks.vue";
+import methods from "./components/pages/basic/methods.vue";
 
-import Router from 'vue-router'
-import Vue from 'vue'
-Vue.use(Router)
-import firstPage from './components/pages/myFirstVuePage'
-import newRoutePage from './components/pages/newRoutePage'
-import hooks from './components/pages/basic/hooks.vue'
-import methods from './components/pages/basic/methods.vue'
+// admin project pages
+import home from "./components/pages/home";
+import tags from "./admin/pages/tags";
+import category from "./admin/pages/category";
 
-// admin project pages 
-import home from './components/pages/home'
-import tags from './admin/pages/tags'
-import category from './admin/pages/category'
-
-
+import usecom from "./vuex/usecom";
 
 const routes = [
     //projects routes....
 
     {
-        path: '/', 
-        component: home, 
-       
+        path: "/test-vuex",
+        component: usecom
     },
     {
-        path: '/tags', 
-        component: tags, 
-       
+        path: "/",
+        component: home
     },
     {
-        path: '/category', 
-        component: category, 
-       
-    },
-
-
-
-    
-    {
-        path: '/my-new-vue-route', 
-        component: firstPage, 
-       
-    },
-
-
-    /// basic tutorials routes... 
-    {
-        path: '/my-new-vue-route', 
-        component: firstPage, 
-       
+        path: "/tags",
+        component: tags
     },
     {
-        path: '/new-route', 
+        path: "/category",
+        component: category
+    },
+
+    {
+        path: "/my-new-vue-route",
+        component: firstPage
+    },
+
+    /// basic tutorials routes...
+    {
+        path: "/my-new-vue-route",
+        component: firstPage
+    },
+    {
+        path: "/new-route",
         component: newRoutePage
     },
 
-    // vue hooks 
+    // vue hooks
     {
-        path: '/hooks', 
+        path: "/hooks",
         component: hooks
     },
-    // more basics 
+    // more basics
     {
-        path: '/methods', 
+        path: "/methods",
         component: methods
-    },
-
-
-]
-
-
+    }
+];
 
 export default new Router({
-    mode: 'history', 
+    mode: "history",
     routes
-
-})
+});

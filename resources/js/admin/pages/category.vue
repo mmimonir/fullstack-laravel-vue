@@ -124,7 +124,7 @@
           </div>
         </Modal>
         <!-- delete alert modal -->
-        <Modal v-model="showDeleteModal" width="360">
+        <!-- <Modal v-model="showDeleteModal" width="360">
           <p slot="header" style="color:#f60;text-align:center">
             <Icon type="ios-information-circle"></Icon>
             <span>Delete confirmation</span>
@@ -139,10 +139,11 @@
               long
               :loading="isDeleing"
               :disabled="isDeleing"
-              @click="deleteTag"
+              @click="deleteCategory"
             >Delete</Button>
           </div>
-        </Modal>
+        </Modal>-->
+        <delete-modal></delete-modal>
       </div>
     </div>
   </div>
@@ -150,6 +151,7 @@
 
 
 <script>
+import deleteModal from "../components/deleteModal.vue";
 export default {
   data() {
     return {
@@ -182,7 +184,7 @@ export default {
         return this.e("Category name is required");
       if (this.data.iconImage.trim() == "")
         return this.e("Icon image is required");
-      this.data.iconImage = `/uploads/${this.data.iconImage}`;
+      this.data.iconImage = `${this.data.iconImage}`;
       const res = await this.callApi("post", "app/create_category", this.data);
       if (res.status === 201) {
         this.categoryLists.unshift(res.data);
@@ -243,11 +245,15 @@ export default {
       this.index = index;
       this.isEditingItem = true;
     },
-    async deleteTag() {
+    async deleteCategory() {
       this.isDeleing = true;
-      const res = await this.callApi("post", "app/delete_tag", this.deleteItem);
+      const res = await this.callApi(
+        "post",
+        "app/delete_category",
+        this.deleteItem
+      );
       if (res.status === 200) {
-        this.tags.splice(this.deletingIndex, 1);
+        this.categoryLists.splice(this.deletingIndex, 1);
         this.s("Tag has been deleted successfully!");
       } else {
         this.swr();
@@ -255,10 +261,17 @@ export default {
       this.isDeleing = false;
       this.showDeleteModal = false;
     },
-    showDeletingModal(tag, i) {
-      this.deleteItem = tag;
-      this.deletingIndex = i;
-      this.showDeleteModal = true;
+    showDeletingModal(category, i) {
+      const deleteModalObj = {
+        showDeleteModal: true,
+        deleteUrl: "app/delete_category",
+        data: category,
+        deletingIndex: -1,
+        isDeleted: false
+      };
+      //   this.deleteItem = category;
+      //   this.deletingIndex = i;
+      //   this.showDeleteModal = true;
     },
     handleSuccess(res, file) {
       res = `/uploads/${res}`;
@@ -328,6 +341,9 @@ export default {
     } else {
       this.swr();
     }
+  },
+  components: {
+    deleteModal
   }
 };
 </script>
